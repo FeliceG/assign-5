@@ -1,0 +1,9 @@
+# System Files
+.DS_Store
+
+node_modules/
+
+#dotenv
+.env
+
+mongodb_atlas

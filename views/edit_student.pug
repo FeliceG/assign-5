@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h1= title
+  h2 Welcome to #{title}
+  h3 Edit the student details
+  form(action=("/update/" + student._id) method="post")
+      label(for='first')
+      strong First: &nbsp;&nbsp;&nbsp;&nbsp;
+      input#first(type='text', name='first' value=student.first)
+      br
+      label(for='last')
+      strong Last: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      input#last(type='text', name='last' value=student.last)
+      br
+      label(for='address')
+      strong Street: &nbsp;&nbsp;&nbsp;
+      input#address(type='text'  name='address' value=student.address)
+      br
+      label(for='city')
+      strong City: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      input#city(type='text', name='city' value=student.city)
+      br
+      label(for='state')
+      strong State: &nbsp;&nbsp;&nbsp;&nbsp;
+      input#state.form-control(type='text', name='state'  value=student.state)
+      p
+      input#updateButton(type='submit' name="updateButton" value="Update Information")
+
+  h3 Delete this student
+  form(action="/delete/" + student._id method="get")
+      input#deleteButton(type="submit" name="deleteButton" value="Delete Student")

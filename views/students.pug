@@ -1,0 +1,40 @@
+extends layout
+
+block content
+    h2 Student roster
+    h3 Add students interested in enrolling in the class with the form below:
+    form(action='/create' method='POST' )
+      br
+      label(for='first') &nbsp;&nbsp;&nbsp;&nbsp; First: &nbsp;&nbsp;&nbsp;&nbsp;
+      input#first(type='text', name='first')
+      br
+      label(for='last') &nbsp;&nbsp;&nbsp;&nbsp; Last: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      input#last(type='text', name='last')
+      br
+      label(for='address') &nbsp;&nbsp;&nbsp;&nbsp; Street: &nbsp;&nbsp;&nbsp;
+      input#address(type='text', name='address')
+      br
+      label(for='city') &nbsp;&nbsp;&nbsp;&nbsp; City: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      input#city(type='text', name='city')
+      br
+      label(for='state') &nbsp;&nbsp;&nbsp;&nbsp; State: &nbsp;&nbsp;&nbsp;&nbsp;
+      input#state(type='text', name='state')
+      p
+      button(type='submit') SUBMIT
+    p
+    p
+    h4 Current Student Roster
+    ul
+      each student in students
+           li
+               strong #{student.first} #{student.last}
+               br
+               strong #{student.address}
+               br
+               strong #{student.city} #{student.state}
+               br
+               a(href="/" + student._id) Edit Student
+               br
+               br
+      else
+            li Add students to the class roster
