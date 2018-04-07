@@ -70,7 +70,7 @@ router.put('/:studentid', (req, res, next)=>{
 router.delete('/:studentid', (req, res, next)=>{
   StudentService.delete(req.params.studentid)
     .then((student)=> {
-      consoloe.log('API: Deleted student');
+      console.log('API: Deleted student');
       res.status(200);
       res.send(JSON.stringify(student));
     }).catch((err)=>{
@@ -80,4 +80,4 @@ router.delete('/:studentid', (req, res, next)=>{
 });
 
 // export our router
-module.exports = api-students;
+module.exports = router;

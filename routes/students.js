@@ -1,5 +1,6 @@
 var express = require('express');
 var students = require('../controllers/studentController');
+const StudentService = studentController.StudentService;
 var router = express.Router();
 
 // List the students on the roster
