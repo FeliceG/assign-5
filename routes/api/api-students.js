@@ -3,13 +3,10 @@ var router = express.Router();
 var studentController = require('../../controllers/studentController');
 const StudentService = studentController.StudentService;
 
-router.get('/', (req, res, next)=>{
-  res.set({'Content-type': 'application/json'});
-  next();
-}).catch((err)=>{
-     res.status(404);
-     res.end();
-});
+router.use((req, res, next)=>{
+   res.set({'Content-type': 'application/json'});
+   next();
+ });
 
 // list
 router.get('/', (req, res, next)=>{
@@ -19,6 +16,7 @@ router.get('/', (req, res, next)=>{
       res.status(200);
       res.send(JSON.stringify(students));
     }).catch((err)=>{
+         console.log('error in list');
          res.status(404);
          res.end();
     });
@@ -26,7 +24,7 @@ router.get('/', (req, res, next)=>{
 
 // find
 router.get('/:studentid', (req, res, next)=>{
-  StudentService.read()
+  StudentService.read(req.param.studentid)
     .then((student) => {
        console.log('API: Found student: ${student}');
        res.status(200);
@@ -37,20 +35,40 @@ router.get('/:studentid', (req, res, next)=>{
    });
 });
 
-router.put('/update/:studentid', (req, res, next)=>{
-  StudentService.update()
-    .then((student)=> {
-      consoloe.log('API: Updated student: ${student}');
+//create
+router.post('/', (req, res, next)=>{
+  var student = {
+    first: req.body.first,
+    last: req.body.last,
+    address: req.body.address,
+    city: req.body.city,
+    state: req.body.state
+  }
+  try{
+    const studentSave = await StudentService.create(student);
+    res.status(201);
+    res.send(JSON.stringify(studentSave));
+    }.catch((err)=>{
+         res.status(404);
+         res.end();
+    });
+});
+
+router.put('/:studentid', (req, res, next)=>{
+  console.log('putting ${req.params.studentid}');
+  let putdata = req.body;
+  StudentService.update(req.params.studentid, putdata)
+    .then((updatedStudent)=> {
       res.status(200);
-      res.send(JSON.stringify(student));
+      res.send(JSON.stringify(updatedStudent));
     }).catch((err)=>{
          res.status(404);
          res.end();
     });
 });
 
-router.post('/update/:studentid', (req, res, next)=>{
-  StudentService.delete()
+router.delete('/:studentid', (req, res, next)=>{
+  StudentService.delete(req.params.studentid)
     .then((student)=> {
       consoloe.log('API: Deleted student');
       res.status(200);

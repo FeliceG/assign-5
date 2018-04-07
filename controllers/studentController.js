@@ -47,8 +47,7 @@ static delete(id){
     return obj;
   });
 }
-
 }
 
-module.exports.Studentservice = StudentService;
+module.exports.StudentService = StudentService;
 module.exports = studentController;
