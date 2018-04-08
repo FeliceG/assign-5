@@ -33,7 +33,7 @@ static create(obj){
 // specified student based on student id
 static update(id, data){
   return Student.findById(id)
-  .then((student) => {
+  .then((student)=>{
     student.set(data);
     student.save();
     return student;
@@ -46,7 +46,7 @@ static delete(id){
   .then((obj) => {
     return obj;
   });
-}
+ }
 }
 
 module.exports.StudentService = StudentService;

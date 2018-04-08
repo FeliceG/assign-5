@@ -4,7 +4,15 @@ var studentController = require('../../controllers/studentController');
 const StudentService = studentController.StudentService;
 
 router.use((req, res, next)=>{
-   res.set({'Content-type': 'application/json'});
+   res.set({
+     'Content-type': 'application/json',
+     'Access-Control-Allow-Origin': '*',
+     'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,OPTIONS',
+     'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers'
+   });
+   if(req.method === 'OPTIONS'){
+     return res.status(200).end();
+   }
    next();
  });
 
@@ -49,8 +57,9 @@ router.post('/', (req, res, next)=>{
     res.status(201);
     res.send(JSON.stringify(studentSave));
     }.catch((err)=>{
-         res.status(404);
-         res.end();
+        console.log(err);
+        res.status(404);
+        res.end();
     });
 });
 
