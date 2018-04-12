@@ -4,7 +4,7 @@ var express = require('express');
 var path = require('path');
 var url = require('url');
 var students = require('./routes/students.js');
-var apistudents = require('./routes/api/api-students.js');
+var api = require('./routes/api.js');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
@@ -17,23 +17,21 @@ db.on('error', (err)=>{console.error('connection error:${err}'); });
 console.log('db connected');
 var app = express();
 
-app.use(bodyParser.json());
+var jsonParser = bodyParser.json();
+var urlEncodedParser = bodyParser.urlencoded({extended: true});
 
-app.use(bodyParser.urlencoded({extended: false}));
 app.use('/static', express.static(path.join(__dirname, 'public')));
-app.use('/api/students', apistudents);
+
+app.use('/', urlEncodedParser, students);
+app.use('/api', jsonParser, api);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use('/', students);
-
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use((req, res, next)=>{
+   res.status(404).end('Error: 404 - Page Not Found');
 });
 
 // error handler
