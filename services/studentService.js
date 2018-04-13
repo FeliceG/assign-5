@@ -25,12 +25,9 @@ StudentService.read = (id)=>{
 
 // create  -- //Add the student to the database and display on the home page
 StudentService.create = (obj)=>{
-  console.log(`in StudentService.js @ start of api/create`);
-  console.log(obj);
   var student = new Student(obj);
   return student.save()
    .then((student)=>{
-      console.log(`in StudentService.js api/create. ${student}`);
       return student;
     }).catch((err)=>{
         throw err;
@@ -40,7 +37,6 @@ StudentService.create = (obj)=>{
 // Update the information entered for the
 // specified student based on student id
 StudentService.update = (id, data)=>{
-  console.log(`StudentService.update ${id}`);
   return Student.findByIdAndUpdate(
     id,
     {$set: data},

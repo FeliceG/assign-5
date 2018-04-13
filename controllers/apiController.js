@@ -4,7 +4,6 @@ var ApiController = {};
 
 // List the students on the roster
 ApiController.list = (req, res)=>{
-  console.log('in apiController.js api/list');
   studentService.list({})
     .then((students)=>{
       if (students) {
@@ -20,7 +19,6 @@ ApiController.list = (req, res)=>{
 
 // Read one student by id in an edit form
 ApiController.read = (req, res)=>{
-  console.log('in apiController.js api/read.');
   studentService.read({_id: req.params.studentid})
     .then((student)=>{
       res.json(student);
@@ -31,32 +29,25 @@ ApiController.read = (req, res)=>{
 };
 
 // Create a student record
-ApiController.create = (req, res)=>{
-  console.log(`in apiController.js api/create. ${req.body.first}`);
-  const promise = studentService.create({
+ApiController.create =  (req, res)=>{
+  studentService.create({
     first: req.body.first,
     last: req.body.last,
     address: req.body.address,
     city: req.body.city,
     state: req.body.state
-  });
-  promise.then((s)=>{
-     res.status(201);
-     console.log(`in api/create to save. ${s}`);
+  }).then((s)=>{
      res.json(s);
    }).catch((err)=>{
-     res.status(404);
       res.end('Creating Student error.');
    });
 };
 
 // Update one student's record based on student id
 ApiController.update = (req, res)=>{
-  console.log(`in apiController.js api/update ${req.params.studentid}`);
   let putdata = req.body;
   studentService.update(req.params.studentid, putdata)
     .then((updatedStudent)=>{
-       console.log(`in apiController.js api/update saved student ${updatedStudent}`);
         res.json(updatedStudent);
     }).catch((err)=>{
         res.end('Updating student error.');
@@ -65,7 +56,6 @@ ApiController.update = (req, res)=>{
 
 // Delete the specific student based on student id
 ApiController.delete = (req, res) => {
-  console.log('in apiController.js api/delete');
   studentService.delete(req.params.studentid)
   .then((student)=>{
     res.json(student);

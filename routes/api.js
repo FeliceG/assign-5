@@ -18,7 +18,7 @@ router.use((req, res, next)=>{
 router.get('/list', api.list);
 
 // find
-router.get('/:studentid', api.read);
+router.get('/student/:studentid', api.read);
 
 //create
 router.post('/create', api.create);

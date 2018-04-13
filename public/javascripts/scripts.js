@@ -7,7 +7,7 @@
     var testID = '';
     var testJSON = {};
 
-    callAPI('GET', '/api/', null, null)
+    callAPI('GET', '/api/list', null, null)
       .then((list)=>{
         console.log('\n\n**********************\nlist results:');
         console.log(list);
@@ -15,14 +15,15 @@
 
         //create
         let input = document.getElementById('formID')
-        let data = new FormData()
-        console.log(`in FormData with input.value ${input.elements[0].value}  ${input.elements[1].value}`);
-        data.append('first', input.elements[0].value);
-        data.append('last', input.elements[1].value);
-        data.append('address', input.elements[2].value);
-        data.append('city', input.elements[3].value);
-        data.append('state', input.elements[4].value);
-        callAPI('POST', '/create', null, data)
+        let data = {
+          first: input.elements[0].value,
+          last: input.elements[1].value,
+          address: input.elements[2].value,
+          city: input.elements[3].value,
+          state: input.elements[4].value
+        };
+
+        callAPI('POST', '/api/create', null, data)
           .then((student)=>{
             studentId = student._id;
             savedStudent = student; //keep a handle to the created photo object
@@ -30,20 +31,20 @@
             console.log(student);
 
         //find
-        callAPI('GET', '/students/'+studentId, null, null)
+        callAPI('GET', '/api/student/'+studentId, null, null)
           .then((student)=>{
             console.log('\n\n*********************\nfind results');
             console.log(student);
 
         //update
         testJSON.description += ' appended by the AJAX API ';
-        callAPI('PUT', '/update/'+studentId, null, savedStudent)
+        callAPI('PUT', '/api/update/'+studentId, null, savedStudent)
            .then((student)=>{
              console.log('\n\n*********************\nupdate results');
              console.log(student);
 
             //delete
-            callAPI('DELETE', '/delete/'+studentID, null, null)
+            callAPI('DELETE', '/api/delete/'+studentId, null, null)
               .then((result)=>{
                 console.log('\n\n*********************\ndelete results');
                 console.log(result);
@@ -75,7 +76,7 @@ async function callAPI(method, uri, params, body){
        */
       var response = await fetch(baseURL + uri, {
         method: method, // GET, POST, PUT, DELETE, etc.
-        ...(method=='POST' ? {body: body} : {}),
+        ...(method=='POST' ? {headers: jsonMimeType, body:JSON.stringify(body)}  : {}),
         ...(method=='PUT' ?  {headers: jsonMimeType, body:JSON.stringify(body)} : {})
       });
       return response.json(); // parses response to JSON
@@ -90,7 +91,6 @@ async function callAPI(method, uri, params, body){
   document.querySelector('#addStudent').addEventListener("click", ()=>{
     let input = document.getElementById('formID')
     if (input.elements[0].value){
-      console.log(`in querySelector with input.value ${input.elements[0].value}  ${input.elements[1].value}`);
       testAPIs();
     }else{
       alert("please enter information in all fields");
