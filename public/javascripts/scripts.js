@@ -1,6 +1,6 @@
 
 (function(){
-  const baseURL ="http://localhost:8080";
+  const baseURL ="http://104.236.207.206:8080";
 
   function testAPIs(){
     //test list first
